@@ -83,13 +83,18 @@ function coding() {
 		localStorage.setItem("Right", QNum);
 	} else {
 		SeWrong.play();
+		localStorage.setItem("Wrong", parseInt(localStorage.getItem("Wrong")) + 1);
 		console.log(eval(strCode + setInputStr(QNum, i)).toString() == Ans[QNum][i].toString());
 	}
 }
 
 function init() {
 	if (localStorage.getItem("Right")) QNum = localStorage.getItem("Right");
-	else QNum = 0;
+	else {
+		QNum = 0;
+		localStorage.setItem("Right", 0);
+	}
+	if (!localStorage.getItem("Wrong")) localStorage.setItem("Wrong", 0);
 	setQuestion(QNum);
 	SeRight = document.getElementById("Right");
 	SeWrong = document.getElementById("Wrong");

@@ -4,8 +4,11 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<div>總通關題目：0</div>
-	<div>正確次數：0</div>
-	<div>錯誤次數：0</div>
+	<div id = "TotalAccept">總通關題目：</div>
+	<div id = "WrongNum">錯誤次數：</div>
+	<script>
+		TotalAccept.innerHTML = "總通關題目：" + localStorage.getItem("Right");
+		WrongNum.innerHTML = "錯誤次數：" + localStorage.getItem("Wrong");
+	</script>
 </body>
 </html>

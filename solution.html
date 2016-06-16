@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel = "stylesheet" type = "text/css" href = "style.css">
+    </head>
+    <body>
+<pre>
+//==================================
+// P1
+//==================================
+function foo(a, b) {
+    return a + b;
+}
+
+//==================================
+// P2
+//==================================
+function foo(a, b) {
+    return a > b? a: b;
+}
+
+//==================================
+// P3
+//==================================
+function foo(a, b) {
+    var arr = [a, b]
+    // hint: arr[2] = a + b
+    for (var i = 2; i < 5; i++)
+        arr[i] = arr[i-1] + arr[i-2];
+    return arr;
+}
+
+//==================================
+// P4
+//==================================
+function foo(a, b) {
+    if (Math.abs(a) > Math.abs(b)) return a + b;
+	if (Math.abs(a) < Math.abs(b)) return a - b;
+	return 0;
+}
+
+//==================================
+// P5
+//==================================
+function foo(arr) {
+	arr.sort(compare);
+	return arr;
+}
+
+function compare(a, b) {
+    return b - a;
+}
+
+//==================================
+// P6
+//==================================
+function foo(str) {
+	return str.split("").reverse().join("");
+}
+
+//==================================
+// End
+//==================================
+</pre>
+    </body>
+</html>

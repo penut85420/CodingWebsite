@@ -46,30 +46,48 @@ Code[5] = "function foo(str) {\n\
     \n\
 }";
 
-Qus[6] = "傳入一個二維陣列形式的矩陣，將其反轉後回傳";
-var arr = []; 
-arr[0] = [0, 1, 1, 0, 1, 1];
-arr[1] = [0, 0, 4, 5, 6, 1];
-arr[2] = [3, 4 ,0 ,5, 2, 9];
-arr[3] = [4, 5, 6, 8, 0, -1];
-arr[4] = [0, 1, 8, 7, 4, 0];
-arr[5] = [0, 1, 1, 1, 1, 1];
-Input[6] = [arr];
+// Qus[6] = "傳入一個二維陣列形式的矩陣，將其反轉後回傳";
+// var arr = []; 
+// arr[0] = [0, 1, 1, 0, 1, 1];
+// arr[1] = [0, 0, 4, 5, 6, 1];
+// arr[2] = [3, 4 ,0 ,5, 2, 9];
+// arr[3] = [4, 5, 6, 8, 0, -1];
+// arr[4] = [0, 1, 8, 7, 4, 0];
+// arr[5] = [0, 1, 1, 1, 1, 1];
+// Input[6] = [arr];
 
-var Ans_arr = [];
-Ans_arr[0] = [0, 0, 3, 4, 0, 0];
-Ans_arr[1] = [1, 0, 4, 5, 1, 1];
-Ans_arr[2] = [1, 4, 0, 6, 8, 1];
-Ans_arr[3] = [0, 5, 5, 8, 7, 1];
-Ans_arr[4] = [1, 6, 2, 0, 4, 1];
-Ans_arr[5] = [1, 1, 9, -1, 0, 1];
-Ans[6] = [Ans_arr];
+// var Ans_arr = [];
+// Ans_arr[0] = [0, 0, 3, 4, 0, 0];
+// Ans_arr[1] = [1, 0, 4, 5, 1, 1];
+// Ans_arr[2] = [1, 4, 0, 6, 8, 1];
+// Ans_arr[3] = [0, 5, 5, 8, 7, 1];
+// Ans_arr[4] = [1, 6, 2, 0, 4, 1];
+// Ans_arr[5] = [1, 1, 9, -1, 0, 1];
+// Ans[6] = [Ans_arr];
 
 var QNum, SeRight, SeWrong;
 
 function coding() {
 	var strCode = document.getElementById("boxCode").value,
 		chk = true;
+	console.log(strCode + setInputStr(QNum, 0));
+	try {
+		eval(strCode + setInputStr(QNum, 0));
+	} catch (e) {
+		if (e) {
+			console.log(strCode + setInputStr(QNum, 0));
+			setError(e.message);
+			chk = false;
+			return;
+		}
+	}
+
+	if (eval(strCode + setInputStr(QNum, 0)) == undefined) {
+		setError("No return value");
+		return;
+	}
+	
+	if (chk)
 	for (var i in Ans[QNum]) {
 		if (eval(strCode + setInputStr(QNum, i)).toString() != Ans[QNum][i].toString()) {
 			chk = false;
@@ -84,8 +102,16 @@ function coding() {
 	} else {
 		SeWrong.play();
 		localStorage.setItem("Wrong", parseInt(localStorage.getItem("Wrong")) + 1);
-		console.log(eval(strCode + setInputStr(QNum, i)).toString() == Ans[QNum][i].toString());
+		console.log(eval(strCode + setInputStr(QNum, i)).toString(), Ans[QNum][i].toString());
+		setError("Wrong Answer");
 	}
+}
+
+function setError(err) {
+	//console.log(err);
+	SeWrong.play();
+	var strErr = document.getElementById("strError");
+	strErr.innerHTML = err;
 }
 
 function init() {
@@ -106,15 +132,27 @@ function setQuestion(num) {
 		strExInput = document.getElementById("ExInput"),
 		strExOutput = document.getElementById("ExOutput"),
 		strCode = document.getElementById("boxCode");
-	strQus.innerHTML = "題目：" + Qus[num];
-	strExInput.innerHTML = "呼叫：" + setInputStr(num, 0);
-	strExOutput.innerHTML = "回傳：" + Ans[num][0];
-	strCode.value = Code[num];
+	if (num < 6) {
+		strQus.innerHTML = "題目：" + Qus[num];
+		strExInput.innerHTML = "呼叫：" + setInputStr(num, 0);
+		strExOutput.innerHTML = "回傳：" + Ans[num][0];
+		strCode.value = Code[num];
+	}	
 }
 
 function setInputStr(num, ind) {
-	var strInput = "foo(" + Input[num][ind][0];
-	for (var i in Input[num][ind])
-		if (i != 0) strInput += ", " + Input[num][ind][i];
+	var strInput = "foo(";
+	if (Input[num][ind][0] instanceof Array)
+		strInput += "[" + Input[num][ind][0] + "]";
+	else if (typeof Input[num][ind] == "string") {
+		strInput += '"' + Input[num][ind] + '")';
+		return strInput;
+	} else strInput += Input[num][ind][0];	
+	for (var i in Input[num][ind]) {
+		if (i != 0)
+			if (Input[num][ind][0] instanceof Array)
+				strInput += ", [" + Input[num][ind][0] + "]"
+			else strInput += ", " + Input[num][ind][i];
+	}
 	return strInput + ")";
 }

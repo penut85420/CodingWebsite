@@ -65,7 +65,7 @@ Ans_arr[4] = [1, 6, 2, 0, 4, 1];
 Ans_arr[5] = [1, 1, 9, -1, 0, 1];
 Ans[6] = [Ans_arr];
 
-var QNum = 0;
+var QNum, SeRight, SeWrong;
 
 function coding() {
 	var strCode = document.getElementById("boxCode").value,
@@ -77,11 +77,23 @@ function coding() {
 		}
 	}
 	if (chk) {
+		SeRight.play();
 		console.log("Right"); QNum++;
 		setQuestion(QNum);
+		localStorage.setItem("Right", QNum);
 	} else {
+		SeWrong.play();
 		console.log(eval(strCode + setInputStr(QNum, i)).toString() == Ans[QNum][i].toString());
 	}
+}
+
+function init() {
+	if (localStorage.getItem("Right")) QNum = localStorage.getItem("Right");
+	else QNum = 0;
+	setQuestion(QNum);
+	SeRight = document.getElementById("Right");
+	SeWrong = document.getElementById("Wrong");
+	SeRight.volume = SeWrong.volume = 0.2;
 }
 
 function setQuestion(num) {

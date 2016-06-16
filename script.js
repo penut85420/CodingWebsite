@@ -65,7 +65,7 @@ Code[5] = "function foo(str) {\n\
 // Ans_arr[5] = [1, 1, 9, -1, 0, 1];
 // Ans[6] = [Ans_arr];
 
-var QNum, SeRight, SeWrong;
+var QNum, SeRight, SeWrong, strQus, strExInput, strExOutput, strCode;
 
 function coding() {
 	var strCode = document.getElementById("boxCode").value,
@@ -99,9 +99,9 @@ function coding() {
 		console.log("Right"); QNum++;
 		setQuestion(QNum);
 		localStorage.setItem("Right", QNum);
+		localStorage.setItem("AC", parseInt(localStorage.getItem("AC")) + 1);
 	} else {
 		SeWrong.play();
-		localStorage.setItem("Wrong", parseInt(localStorage.getItem("Wrong")) + 1);
 		console.log(eval(strCode + setInputStr(QNum, i)).toString(), Ans[QNum][i].toString());
 		setError("Wrong Answer");
 	}
@@ -109,6 +109,7 @@ function coding() {
 
 function setError(err) {
 	//console.log(err);
+	localStorage.setItem("Wrong", parseInt(localStorage.getItem("Wrong")) + 1);
 	SeWrong.play();
 	var strErr = document.getElementById("strError");
 	strErr.innerHTML = err;
@@ -121,23 +122,30 @@ function init() {
 		localStorage.setItem("Right", 0);
 	}
 	if (!localStorage.getItem("Wrong")) localStorage.setItem("Wrong", 0);
-	setQuestion(QNum);
+	if (!localStorage.getItem("AC")) localStorage.setItem("AC", 0);
 	SeRight = document.getElementById("Right");
 	SeWrong = document.getElementById("Wrong");
 	SeRight.volume = SeWrong.volume = 0.2;
+	strQus = document.getElementById("Question");
+	strExInput = document.getElementById("ExInput");
+	strExOutput = document.getElementById("ExOutput");
+	strCode = document.getElementById("boxCode");
+	setQuestion(QNum);
 }
 
 function setQuestion(num) {
-	var strQus = document.getElementById("Question"),
-		strExInput = document.getElementById("ExInput"),
-		strExOutput = document.getElementById("ExOutput"),
-		strCode = document.getElementById("boxCode");
 	if (num < 6) {
 		strQus.innerHTML = "題目：" + Qus[num];
 		strExInput.innerHTML = "呼叫：" + setInputStr(num, 0);
 		strExOutput.innerHTML = "回傳：" + Ans[num][0];
 		strCode.value = Code[num];
-	}	
+	} else {
+		strExOutput.hidden = strQus.hidden =
+		strExInput.hidden = strCode.hidden = true;
+		document.getElementById("BtnCode").hidden = true;
+		document.getElementById("Result").innerHTML = "恭喜解開所有題目！";
+		document.getElementById("BtnReset").hidden = false;
+	}
 }
 
 function setInputStr(num, ind) {
@@ -155,4 +163,20 @@ function setInputStr(num, ind) {
 			else strInput += ", " + Input[num][ind][i];
 	}
 	return strInput + ")";
+}
+
+function reset() {
+	strExOutput.hidden = strQus.hidden =
+		strExInput.hidden = strCode.hidden = false;
+	document.getElementById("BtnCode").hidden = false;
+	document.getElementById("BtnReset").hidden = true;
+	document.getElementById("Result").innerHTML = "";
+	localStorage.setItem("Right", 0);
+	QNum = 0;
+	setQuestion(QNum);
+}
+
+function cheat() {
+	QNum = 7;
+	setQuestion(QNum);
 }

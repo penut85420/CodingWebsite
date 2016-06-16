@@ -1,0 +1,37 @@
+body, input[type = button], textarea {
+	font-family: consolas, 微軟正黑體;
+	background: #333333;
+	color: #AAAAAA;
+}
+
+.Title {
+	text-align: center;
+	font-size: 24pt;
+	background: #222222;
+	margin-bottom: 1em;
+}
+
+input[type = button] {
+	border: solid 1px;
+}
+
+textarea {
+	width: 100%;
+	height: 80%;
+	margin-top: 1em;
+}
+
+/*.status {
+	border: solid 2px;
+	border-color: #222222;
+	background: #111111;
+	color: #EEEEEE;
+	width: 100%;
+	margin: 0;
+}*/
+
+.canRight {
+	width:  100%;
+	height: 15%;
+	
+}

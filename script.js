@@ -98,7 +98,7 @@ function coding() {
 		SeRight.play();
 		console.log("Right"); QNum++;
 		var strErr = document.getElementById("strError");
-		strErr.innerHTML = "";
+		strErr.innerHTML = " ";
 		setQuestion(QNum);
 		localStorage.setItem("Right", QNum);
 		localStorage.setItem("AC", parseInt(localStorage.getItem("AC")) + 1);
